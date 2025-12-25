@@ -24,9 +24,12 @@ namespace HOG.Installers
             LevelModelFactory levelModelFactory = new LevelModelFactory(_repositoryLoader);
             LevelProvider levelProvider = new LevelProvider(levelModelFactory.GetAllLevelModels());
             builder.RegisterInstance(levelProvider).As<IDataProvider<LevelModel>>();
+
             builder.Register<IGameplayCurrentLevel, GameplayCurrentLevel>(Lifetime.Singleton);
-            //builder.RegisterEntryPoint<LevelView>();
-            builder.RegisterComponentInHierarchy<LevelView>().As<IStartable>();
+            
+            builder.RegisterComponentInHierarchy<LevelView>().As<IInitializable>();
+            builder.RegisterComponentInHierarchy<WinView>().As<IInitializable>();
+            
             builder.RegisterEntryPoint<GameplayRoot>();
         }
    }

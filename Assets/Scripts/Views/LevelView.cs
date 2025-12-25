@@ -9,7 +9,7 @@ using VContainer.Unity;
 
 namespace HOG.Views
 {
-    public class LevelView : MonoBehaviour, IStartable
+    public class LevelView : MonoBehaviour, IInitializable
     {
         [SerializeField]
         private Transform _itemsToFindRoot;
@@ -23,7 +23,7 @@ namespace HOG.Views
         [Inject]
         private IGameplayCurrentLevel _currentLevel;
 
-        public void Start()
+        public void Initialize()
         {
             if (_currentLevel == null)
             {
@@ -32,7 +32,8 @@ namespace HOG.Views
 
             _currentLevel.onLevelStarted += OnLevelStarted;
             _currentLevel.onItemPickedUp += OnItemPickedUp;
-            OnLevelStarted(_currentLevel.levelID);
+            if (!string.IsNullOrEmpty(_currentLevel.levelID))
+                OnLevelStarted(_currentLevel.levelID);
         }
 
         private void OnItemPickedUp(string itemID)

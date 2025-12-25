@@ -7,7 +7,7 @@ using VContainer.Unity;
 
 namespace HOG.Gameplay
 {
-    public class GameplayRoot : MonoBehaviour, IStartable
+    public class GameplayRoot : MonoBehaviour, IInitializable
     {
         [Inject]
         private IGameplayCurrentLevel _level;
@@ -19,7 +19,7 @@ namespace HOG.Gameplay
             _level.StartLevel(_dataProvider.models[0].id);
         }
 
-        public void Start()
+        public void Initialize()
         {
             if (_level == null)
             {

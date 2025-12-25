@@ -70,6 +70,11 @@ namespace HOG.Gameplay
                     _remainingItems.RemoveAt(i);
                     itemView.Hide();
                     onItemPickedUp?.Invoke(itemView.name);
+
+                    if (_remainingItems.Count == 0)
+                    {
+                        onLevelFinished?.Invoke(LevelFinishResultType.Completed);
+                    }
                     return;
                 }
             }
