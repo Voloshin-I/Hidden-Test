@@ -32,9 +32,12 @@ namespace HOG.Installers
             builder.RegisterInstance(levelFilteredProvider).As<IDataProvider<LevelFilteredDataModel>>();
 
             builder.Register<IGameplayCurrentLevel, GameplayCurrentLevel>(Lifetime.Singleton);
+            builder.Register<ITimer, Timer>(Lifetime.Singleton).As<ITickable>();
             
             builder.RegisterComponentInHierarchy<LevelView>().As<IInitializable>();
             builder.RegisterComponentInHierarchy<WinView>().As<IInitializable>();
+            builder.RegisterComponentInHierarchy<LoseView>().As<IInitializable>();
+            builder.RegisterComponentInHierarchy<TimerView>().As<IInitializable>();
             
             builder.RegisterEntryPoint<GameplayRoot>();
         }

@@ -16,10 +16,13 @@ namespace HOG.Gameplay
         
         public GameplayCurrentLevel(
             IDataProvider<LevelModel> levelDataProvider,
-            IDataProvider<LevelFilteredDataModel> levelFilteredDataProvider)
+            IDataProvider<LevelFilteredDataModel> levelFilteredDataProvider,
+            ITimer timer)
         {
             _levelDataProvider = levelDataProvider;
             _levelFilteredDataProvider = levelFilteredDataProvider;
+            _timer = timer;
+            _timer.onExpired += OnTimerExpired;
             GameplayItemView.onClick += OnItemPickedUp;
         }
 
@@ -60,6 +63,12 @@ namespace HOG.Gameplay
                 }
             }
 
+            if (levelModel.settings.timerDurationSeconds > 0)
+            {
+                _timer.Set(levelModel.settings.timerDurationSeconds);
+                _timer.Start();
+            }
+
             onLevelStarted?.Invoke(levelId);
         }
 
@@ -76,15 +85,23 @@ namespace HOG.Gameplay
 
                     if (_remainingItems.Count == 0)
                     {
+                        _timer.Cancel();
                         onLevelFinished?.Invoke(LevelFinishResultType.Completed);
                     }
                     return;
                 }
             }
         }
-        
+
+        private void OnTimerExpired()
+        {
+            onLevelFinished?.Invoke(LevelFinishResultType.Failed);
+            _remainingItems.Clear();
+        }
+
         private IDataProvider<LevelModel> _levelDataProvider;
         private IDataProvider<LevelFilteredDataModel> _levelFilteredDataProvider;
+        private ITimer _timer;
 
         private GameObject _levelObject;
         private List<string> _remainingItems = new();

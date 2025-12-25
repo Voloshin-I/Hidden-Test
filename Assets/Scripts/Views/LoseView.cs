@@ -1,19 +1,26 @@
+using HOG.Interfaces.Gameplay;
 using UnityEngine;
+using VContainer;
+using VContainer.Unity;
 
-namespace HOG
+namespace HOG.Views
 {
-    public class LoseView : MonoBehaviour
+    public class LoseView : MonoBehaviour, IInitializable
     {
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
+        [Inject]
+        private IGameplayCurrentLevel _currentLevel;
+
+        public void Initialize()
         {
-        
+            _currentLevel.onLevelFinished += OnLevelFinished;
         }
 
-        // Update is called once per frame
-        void Update()
+        private void OnLevelFinished(LevelFinishResultType resultType)
         {
-        
+            if (resultType == LevelFinishResultType.Failed)
+            {
+                gameObject.SetActive(true);
+            }
         }
     }
 }
