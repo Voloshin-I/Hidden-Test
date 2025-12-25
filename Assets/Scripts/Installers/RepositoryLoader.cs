@@ -97,7 +97,6 @@ namespace HOG.Installers
                     {
                         Debug.LogError($"Failed to load assets of type 'UnityEngine.Object' with label '{addressableLabel}'");
                     }
-                    Addressables.Release(handle);
                 };
             };
         }
