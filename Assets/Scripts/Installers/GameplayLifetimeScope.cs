@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using HOG.Factories;
 using HOG.Gameplay;
-using HOG.Interfaces.Factories;
 using HOG.Interfaces.Gameplay;
 using HOG.Interfaces.Models;
 using HOG.Models;
@@ -33,6 +32,7 @@ namespace HOG.Installers
 
             builder.Register<IGameplayCurrentLevel, GameplayCurrentLevel>(Lifetime.Singleton);
             builder.Register<ITimer, Timer>(Lifetime.Singleton).As<ITickable>();
+            builder.Register<EscapeListener>(Lifetime.Singleton).As<ITickable>();
             
             builder.RegisterComponentInHierarchy<LevelView>().As<IInitializable>();
             builder.RegisterComponentInHierarchy<WinView>().As<IInitializable>();
