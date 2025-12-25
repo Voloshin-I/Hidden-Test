@@ -1,4 +1,5 @@
 ﻿using HOG.Interfaces.Models;
+using HOG.Models;
 using UnityEngine;
 
 namespace HOG.Repositories
@@ -7,6 +8,6 @@ namespace HOG.Repositories
     public class LevelModelRepositoryData : ScriptableObject
     {
         public GameObject levelAsset;
-        public ILevelSettings levelSettings;
+        public LevelSettings levelSettings;
     }
 }

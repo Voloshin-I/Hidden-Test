@@ -21,6 +21,9 @@ namespace HOG.Views
         private IDataProvider<LevelModel> _dataProvider;
         
         [Inject]
+        private IDataProvider<LevelFilteredDataModel> _filteredDataProvider;
+        
+        [Inject]
         private IGameplayCurrentLevel _currentLevel;
 
         public void Initialize()
@@ -57,8 +60,12 @@ namespace HOG.Views
                 Debug.LogError($"Level with ID {levelId} not found in data provider.");
                 return;
             }
-
-            ILevelSettings settings = levelModel.settings;
+            
+            if (!_filteredDataProvider.modelsByID.TryGetValue(levelId, out LevelFilteredDataModel levelFilteredModel))
+            {
+                Debug.LogError($"Filtered level with ID {levelId} not found in data provider.");
+                return;
+            }
 
             foreach (LevelItemView levelItemView in _allLevelItems)
             {
@@ -66,26 +73,30 @@ namespace HOG.Views
             }
             _activeLevelItems.Clear();
 
+            SpriteRenderer[] sprites = levelModel.prefab.GetComponentsInChildren<SpriteRenderer>();
             int i = 0;
-            foreach (SpriteRenderer sprite in levelModel.prefab.GetComponentsInChildren<SpriteRenderer>())
+            foreach (string itemId in levelFilteredModel.sortedViewItemIDs)
             {
-                if (sprite.name.Length > 2 && sprite.name.Contains("_1"))
+                foreach (SpriteRenderer sprite in sprites)
                 {
-                    string key = sprite.name.Remove(sprite.name.Length - 2);
-                    LevelItemView view;
-                    if (i >= _allLevelItems.Count)
+                    if (sprite.name == itemId)
                     {
-                        view = Instantiate(_prefab, _itemsToFindRoot).GetComponent<LevelItemView>();
-                        _allLevelItems.Add(view);
+                        string key = sprite.name.Remove(sprite.name.Length - 2);
+                        LevelItemView view;
+                        if (i >= _allLevelItems.Count)
+                        {
+                            view = Instantiate(_prefab, _itemsToFindRoot).GetComponent<LevelItemView>();
+                            _allLevelItems.Add(view);
+                        }
+                        else
+                        {
+                            view = _allLevelItems[i];
+                        }
+                        view.SetSprite(sprite.sprite);
+                        view.gameObject.SetActive(true);
+                        _activeLevelItems[key] = view;
+                        i++;
                     }
-                    else
-                    {
-                        view = _allLevelItems[i];
-                    }
-                    view.SetSprite(sprite.sprite);
-                    view.gameObject.SetActive(true);
-                    _activeLevelItems[key] = view;
-                    i++;
                 }
             }
         }

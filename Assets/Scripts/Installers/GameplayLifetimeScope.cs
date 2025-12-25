@@ -1,4 +1,5 @@
-﻿using HOG.Factories;
+﻿using System.Collections.Generic;
+using HOG.Factories;
 using HOG.Gameplay;
 using HOG.Interfaces.Factories;
 using HOG.Interfaces.Gameplay;
@@ -22,8 +23,13 @@ namespace HOG.Installers
         {
             // We create DataProvider manually, because we need the factory only once
             LevelModelFactory levelModelFactory = new LevelModelFactory(_repositoryLoader);
-            LevelProvider levelProvider = new LevelProvider(levelModelFactory.GetAllLevelModels());
+            IEnumerable<LevelModel> levelModels = levelModelFactory.GetAllLevelModels();
+
+            LevelProvider levelProvider = new LevelProvider(levelModels);
             builder.RegisterInstance(levelProvider).As<IDataProvider<LevelModel>>();
+            
+            LevelFilteredProvider levelFilteredProvider = new LevelFilteredProvider(levelModels);
+            builder.RegisterInstance(levelFilteredProvider).As<IDataProvider<LevelFilteredDataModel>>();
 
             builder.Register<IGameplayCurrentLevel, GameplayCurrentLevel>(Lifetime.Singleton);
             

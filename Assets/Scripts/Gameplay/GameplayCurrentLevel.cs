@@ -15,10 +15,11 @@ namespace HOG.Gameplay
         public string levelID { get; private set; }
         
         public GameplayCurrentLevel(
-            IDataProvider<LevelModel> levelDataProvider
-            )
+            IDataProvider<LevelModel> levelDataProvider,
+            IDataProvider<LevelFilteredDataModel> levelFilteredDataProvider)
         {
             _levelDataProvider = levelDataProvider;
+            _levelFilteredDataProvider = levelFilteredDataProvider;
             GameplayItemView.onClick += OnItemPickedUp;
         }
 
@@ -39,24 +40,26 @@ namespace HOG.Gameplay
             this.levelID = levelId;
             
             _levelObject = GameObject.Instantiate(levelModel.prefab);
-            foreach (SpriteRenderer child in _levelObject.GetComponentsInChildren<SpriteRenderer>())
+            IReadOnlyList<string> sortedIDs = _levelFilteredDataProvider.modelsByID[levelId].sortedGameplayItemIDs;
+            SpriteRenderer[] children = _levelObject.GetComponentsInChildren<SpriteRenderer>();
+            foreach (SpriteRenderer child in children)
             {
-                if (child.name.Contains("_1"))
-                {
+                if (child.name != "Background")
                     child.gameObject.SetActive(false);
-                    continue;
-                }
-                
-                if (child.name == "Background")
-                {
-                    child.gameObject.SetActive(true);
-                    continue;
-                }
-
-                child.gameObject.AddComponent<GameplayItemView>();
-                _remainingItems.Add(child.name);
             }
-            
+            foreach (string id in sortedIDs)
+            {
+                foreach (SpriteRenderer child in children)
+                {
+                    if (child.name == id)
+                    {
+                        child.gameObject.AddComponent<GameplayItemView>();
+                        _remainingItems.Add(child.name);
+                        child.gameObject.SetActive(true);
+                    }
+                }
+            }
+
             onLevelStarted?.Invoke(levelId);
         }
 
@@ -81,6 +84,7 @@ namespace HOG.Gameplay
         }
         
         private IDataProvider<LevelModel> _levelDataProvider;
+        private IDataProvider<LevelFilteredDataModel> _levelFilteredDataProvider;
 
         private GameObject _levelObject;
         private List<string> _remainingItems = new();

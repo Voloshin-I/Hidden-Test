@@ -1,7 +1,7 @@
 {
     "name": "Repositories",
     "rootNamespace": "HOG",
-    "references": ["GUID:1baa0233f132f1f4f8f34dad3e201338"],
+    "references": ["GUID:1baa0233f132f1f4f8f34dad3e201338","GUID:3839d32e3b32f2f4dab30bdae4b89f28"],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

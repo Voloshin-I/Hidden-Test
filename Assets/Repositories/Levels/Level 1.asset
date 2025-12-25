@@ -13,3 +13,11 @@ MonoBehaviour:
   m_Name: Level 1
   m_EditorClassIdentifier: Repositories::HOG.Repositories.LevelModelRepositoryData
   levelAsset: {fileID: -8653719598885068355, guid: a4f1c360d9ddd0d4d90aa2eb2f6ae8a4, type: 3}
+  levelSettings:
+    _disabledItems:
+    - "\u0441\u043A\u0430\u043A\u0430\u043B\u043A\u0430"
+    <imageMode>k__BackingField: 0
+    <timerDurationSeconds>k__BackingField: 0
+    _firstItems:
+    - "\u0440\u043E\u043B\u0438\u043A\u0438"
+    - "\u043C\u0430\u0440\u043C\u0435\u043B\u0430\u0434"

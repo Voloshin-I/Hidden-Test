@@ -8,16 +8,10 @@ namespace HOG.Models
     {
         public LevelProvider(IEnumerable<LevelModel> models)
         {
-            this.models = models.ToArray();
+            this.models = models.Where(m => !string.IsNullOrEmpty(m.id)).ToArray();
             modelsByIDInternal = new Dictionary<string, LevelModel>();
             foreach (LevelModel model in models)
             {
-                if (string.IsNullOrEmpty(model.id))
-                {
-                    Debug.LogError($"model id is null or empty");
-                    continue;
-                }
-
                 modelsByIDInternal[model.id] = model;
             }
         }
