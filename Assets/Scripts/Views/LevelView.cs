@@ -92,7 +92,7 @@ namespace HOG.Views
                         {
                             view = _allLevelItems[i];
                         }
-                        view.SetSprite(sprite.sprite);
+                        view.Set(sprite.sprite, levelModel.settings.imageMode);
                         view.gameObject.SetActive(true);
                         _activeLevelItems[key] = view;
                         i++;
