@@ -12,6 +12,7 @@ namespace HOG.Interfaces.Gameplay
     {
         event Action<string> onLevelStarted;
         event Action<LevelFinishResultType> onLevelFinished;
+        event Action<string> onItemPickedUp;
         string levelID { get; }
         void StartLevel(string levelId);
     }

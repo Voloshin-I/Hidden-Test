@@ -76,7 +76,6 @@ namespace HOG.Views
                     view.gameObject.SetActive(true);
                     i++;
                 }
-                Debug.LogError(sprite.name);
             }
         }
         
