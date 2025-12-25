@@ -1,10 +1,13 @@
-﻿using HOG.Interfaces.Models;
+﻿using System;
+using System.Collections.Generic;
+using HOG.Interfaces.Models;
 using UnityEngine;
 
 namespace HOG.Models
 {
-    public class LevelModel
+    public class LevelModel: IModel
     {
+        public string id => name;
         public string name { get; }
         public GameObject prefab { get; }
         public ILevelSettings settings { get; }
@@ -16,11 +19,16 @@ namespace HOG.Models
         }
     }
 
+    [Serializable]
     public class LevelSettings : ILevelSettings
     {
-        public LevelSettings(ILevelSettings copyFrom)
-        {
-            
-        }
+    }
+
+    public class GameplayLevelModel : IModel
+    {
+        public string id { get; }
+        public GameObject levelInstance;
+        public Dictionary<string, Sprite> uiSprites;
+        public Dictionary<string, GameObject> uiBackgroundSprites;
     }
 }

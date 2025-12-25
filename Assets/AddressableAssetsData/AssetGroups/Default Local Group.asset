@@ -15,6 +15,12 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 98e97fd184e39c94986937672d570631
   m_SerializeEntries:
+  - m_GUID: a2eb6ce2ce6ba294fb5069988ae78acd
+    m_Address: Assets/Levels/Level 1.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - level
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a4f1c360d9ddd0d4d90aa2eb2f6ae8a4
     m_Address: Assets/Levels/Test Level.psb
     m_ReadOnly: 0

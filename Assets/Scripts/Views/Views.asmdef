@@ -1,8 +1,9 @@
 {
-    "name": "HOG.Models",
+    "name": "Views",
     "rootNamespace": "HOG",
     "references": [
-        "GUID:1baa0233f132f1f4f8f34dad3e201338"
+        "GUID:1baa0233f132f1f4f8f34dad3e201338",
+        "GUID:b0214a6008ed146ff8f122a6a9c2f6cc"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
