@@ -31,7 +31,16 @@ namespace HOG.Views
             }
 
             _currentLevel.onLevelStarted += OnLevelStarted;
+            _currentLevel.onItemPickedUp += OnItemPickedUp;
             OnLevelStarted(_currentLevel.levelID);
+        }
+
+        private void OnItemPickedUp(string itemID)
+        {
+            if (_activeLevelItems.TryGetValue(itemID, out LevelItemView itemView))
+            {
+                itemView.gameObject.SetActive(false);
+            }
         }
 
         private void OnLevelStarted(string levelId)
@@ -74,6 +83,7 @@ namespace HOG.Views
                     }
                     view.SetSprite(sprite.sprite);
                     view.gameObject.SetActive(true);
+                    _activeLevelItems[key] = view;
                     i++;
                 }
             }
