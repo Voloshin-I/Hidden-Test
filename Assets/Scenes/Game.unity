@@ -361,6 +361,7 @@ MonoBehaviour:
     TypeName: 
   autoRun: 1
   autoInjectGameObjects: []
+  _repositoryLoader: {fileID: 44206370}
 --- !u!4 &1422333457
 Transform:
   m_ObjectHideFlags: 0

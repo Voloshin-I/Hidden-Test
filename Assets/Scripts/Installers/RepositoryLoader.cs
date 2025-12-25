@@ -7,7 +7,7 @@ using Object = UnityEngine.Object;
 
 namespace HOG.Installers
 {
-    internal class RepositoryLoader : MonoBehaviour
+    internal class RepositoryLoader : MonoBehaviour, IRepositoryDataProvider
     {
         [Serializable]
         public struct LabelTypePair
@@ -17,9 +17,42 @@ namespace HOG.Installers
         }
 
         public event Action onLoadCompleted;
-        
+        public bool isLoaded => _loaded;
+
         public string[] addressableLabels = { "default", "level" };
         public GameObject[] objectsToActivateOnLoad;
+
+        public IEnumerable<T> GetAllOfType<T>() where T : Object
+        {
+            List<T> result = new();
+            foreach (KeyValuePair<string, IList<Object>> labeledObjects in _loadedAssets)
+            {
+                foreach (Object o in labeledObjects.Value)
+                {
+                    if (o is T typedObject)
+                    {
+                        result.Add(typedObject);
+                    }
+                }
+            }
+            return result;
+        }
+
+        public IEnumerable<T> GetAllOfType<T>(string label) where T : Object
+        {
+            List<T> result = new();
+            if (_loadedAssets.TryGetValue(label, out IList<Object> labeledObjects))
+
+                foreach (Object o in labeledObjects)
+                {
+                    if (o is T typedObject)
+                    {
+                        result.Add(typedObject);
+                    }
+                }
+
+            return result;
+        }
 
         private void Start()
         {

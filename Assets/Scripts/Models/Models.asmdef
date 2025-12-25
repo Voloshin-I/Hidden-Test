@@ -1,7 +1,7 @@
 {
     "name": "Models",
     "rootNamespace": "HOG",
-    "references": [],
+    "references": ["GUID:1baa0233f132f1f4f8f34dad3e201338"],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
