@@ -9,6 +9,10 @@ namespace HOG.Gameplay
 {
     public class GameplayCurrentLevel : IGameplayCurrentLevel
     {
+        public event Action<string> onLevelStarted;
+        public event Action<LevelFinishResultType> onLevelFinished;
+        public string levelID { get; private set; }
+        
         public GameplayCurrentLevel(
             IDataProvider<LevelModel> levelDataProvider
             )
@@ -16,7 +20,6 @@ namespace HOG.Gameplay
             _levelDataProvider = levelDataProvider;
         }
 
-        public event Action<LevelFinishResultType> OnLevelFinished;
         public void StartLevel(string levelId)
         {
             if (!_levelDataProvider.modelsByID.TryGetValue(levelId, out LevelModel levelModel))
@@ -25,7 +28,11 @@ namespace HOG.Gameplay
                 return;
             }
 
+            this.levelID = levelId;
+            
             GameObject.Instantiate(levelModel.prefab);
+            
+            onLevelStarted?.Invoke(levelId);
         }
 
         private IDataProvider<LevelModel> _levelDataProvider;

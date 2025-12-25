@@ -10,7 +10,9 @@ namespace HOG.Interfaces.Gameplay
     
     public interface IGameplayCurrentLevel
     {
-        event Action<LevelFinishResultType> OnLevelFinished;
+        event Action<string> onLevelStarted;
+        event Action<LevelFinishResultType> onLevelFinished;
+        string levelID { get; }
         void StartLevel(string levelId);
     }
 }

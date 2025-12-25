@@ -4,6 +4,7 @@ using HOG.Interfaces.Factories;
 using HOG.Interfaces.Gameplay;
 using HOG.Interfaces.Models;
 using HOG.Models;
+using HOG.Views;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -24,6 +25,8 @@ namespace HOG.Installers
             LevelProvider levelProvider = new LevelProvider(levelModelFactory.GetAllLevelModels());
             builder.RegisterInstance(levelProvider).As<IDataProvider<LevelModel>>();
             builder.Register<IGameplayCurrentLevel, GameplayCurrentLevel>(Lifetime.Singleton);
+            //builder.RegisterEntryPoint<LevelView>();
+            builder.RegisterComponentInHierarchy<LevelView>().As<IStartable>();
             builder.RegisterEntryPoint<GameplayRoot>();
         }
    }
